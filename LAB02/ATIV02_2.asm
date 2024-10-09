@@ -1,0 +1,52 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+ msg db 'Digite o primeiro numero$'
+ msg2 db 13,10,'Digite o segundo numero$'
+ msg3 db 13,10,'A soma dos numeros eh:$'
+.CODE
+MAIN PROC
+
+MOV AX,@DATA
+MOV DS,AX
+
+;IMPRIMIR A STRING;
+MOV AH,09   
+LEA DX,msg
+INT 21H
+
+;SALVAR OS CARACTERES;
+MOV AH,01
+INT 21H
+MOV BL,AL
+SUB BL,30H
+
+;IMPRIMIR A STRING;
+MOV AH, 09
+LEA DX, msg2
+INT 21H
+
+;SALVAR OS CARACTERES;
+MOV AH,01
+INT 21H
+SUB AL,30H
+
+ADD BL,AL
+ADD BL,30H
+
+;IMPRIMIR A STRING;
+MOV AH, 09
+LEA DX, msg3
+INT 21H
+
+MOV AH, 02H        ; função para imprimir um caractere
+MOV DL,BL
+INT 21H  
+
+MOV AH, 4CH
+INT 21H
+MAIN ENDP
+END MAIN
+
+;fim
+
