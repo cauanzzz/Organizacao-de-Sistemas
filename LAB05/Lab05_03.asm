@@ -1,7 +1,7 @@
 .MODEL SMALL
 .STACK 100H
 .DATA
-sofia DB 0,'$'
+letra DB 0,'$'
 .CODE
 MAIN PROC
     MOV AX,@DATA
@@ -10,11 +10,10 @@ MAIN PROC
     MOV BL,65
 
 IMPRIMIR:
-MOV sofia,BL
+MOV letra,BL
 MOV AH,09
-LEA DX,sofia
+LEA DX,letra
 INT 21h
-DEC CX
 CMP BL,90
 JE MINUSCULAS
 ADD BL,1
