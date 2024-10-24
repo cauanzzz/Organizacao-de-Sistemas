@@ -1,37 +1,35 @@
 .MODEL SMALL
 .STACK 100h
 .DATA
-VETOR DB 'C', 'A', 'U', 'A', 'N', 'B', 'R', 'A', 'G', 'A', '$'  ; Adicione um terminador
-COUNT DB 0  ; Para armazenar o número de 'A's
-
+MATRIZ DB 1, 20, 30, 40
+       DB 50, 2, 70, 80
+       DB 90, 100, 3, 120
+       DB 130, 140, 150, 3
+SOMA DB 0  ; Inicializa SOMA como zero
 .CODE
 MAIN PROC
     MOV AX, @DATA
     MOV DS, AX
 
-    XOR CX, CX         ; CX será o contador de 'A'
-    XOR SI, SI         ; SI será o índice do vetor
+    XOR SI, SI          ; Inicializa o índice da matriz
+    XOR BL, BL          ; BL será usado para somar
+    MOV CX, 0           ; Inicializa o contador
 
-COMPARE:
-    CMP VETOR[SI], '$'  ; Verifique o terminador
-    JE FIM              ; Se for o terminador, vá para FIM
-
-    CMP VETOR[SI], 'A'  ; Compare o caractere atual com 'A'
-    JNE NEXT            ; Se não for 'A', vá para NEXT
-    INC CX              ; Se for 'A', incremente o contador
-
-NEXT:
-    INC SI              ; Avançar para o próximo caractere
-    JMP COMPARE         ; Repetir o loop
+LOOPI:
+    MOV AL, MATRIZ[SI]  ; Carrega o elemento atual da matriz
+    ADD BL, AL          ; Soma o elemento ao acumulador
+    INC SI              ; Avança para o próximo elemento (incrementa em 1)
+    INC CX              ; Incrementa o contador
+    CMP CX, 12          ; Verifica se já somou 12 elementos
+    JL LOOPI           ; Se não, continue o loop
 
 FIM:
-    XOR AX,AX
-    MOV AL, CL         ; Carregar o contador de 'A' em AL
-    ADD AL, 30H        ; Converter para caractere ASCII
-    MOV AH, 02h
-    MOV DL,AL
-    INT 21h             ; Imprimir o resultado
-    MOV AH,4CH
+    ; Converte a soma em ASCII para impressão
+    ADD BL, '0'         ; Converte para caractere ASCII
+
+    MOV AH, 02h         ; Função para imprimir um caractere
+    MOV DL, BL          ; Move o resultado para DL
+    INT 21h             ; Chama a interrupção para imprimir
 
     ; Finaliza o programa
     MOV AH, 4Ch
