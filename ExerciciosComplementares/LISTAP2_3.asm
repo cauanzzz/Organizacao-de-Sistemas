@@ -1,0 +1,27 @@
+.MODEL SMALL
+.STACK 100h
+.DATA
+ MSG DB 'DIGITE UM NUMERO DECIMAL:$'
+ MSG2 DB "NUMERO EM HEXADECIMAL EH:$"
+        
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    MOV AH,09
+    LEA DX, MSG
+    INT 21H
+    MOV AH,01
+    INT 21H
+    CMP AL,'0'
+    JB FIM
+    CMP AL '9'
+    JBE NUMERO
+    
+    LETRA:
+
+    MOV AH,4CH
+    INT 21h
+    MAIN ENDP
+    END MAIN
+
