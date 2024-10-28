@@ -17,17 +17,29 @@ MAIN PROC
     MOV CHAR,AL
     XOR BL,BL
     MOV CX,8
+    CALL VERIFICA
+    CALL IMPRIMIR
+MAIN ENDP
 
+
+
+
+
+ VERIFICA PROC
     CONTAGEM:
     TEST AL, 1          ; Verifica o bit menos significativo
     JZ MAIS             ; Se for 0, pula para MAIS
     INC BL              ; Se for 1, incrementa o contador
 
-MAIS:
+    MAIS:
     SHR AL, 1           ; Desloca à direita
     LOOP CONTAGEM       ; Decrementa CX e repete se CX != 0
-
-    IMPRIMIR:
+    CALL IMPRIMIR
+    MOV AH,4CH
+    INT 21h
+    RET
+VERIFICA ENDP
+IMPRIMIR PROC 
     MOV AH,09
     LEA DX,MSG2
     INT 21H
@@ -35,7 +47,6 @@ MAIS:
     MOV AH,02
     MOV DL,BL 
     INT 21H
-    MOV AH,4CH
-    INT 21h
-MAIN ENDP
+    RET
+IMPRIMIR ENDP
 END MAIN
