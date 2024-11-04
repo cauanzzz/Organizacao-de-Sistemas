@@ -64,14 +64,10 @@ sai_hexa PROC
     @LOOP_HEXA:
         XOR DX,DX       ;Vamos armazenar o resto em DX toda vez que o loop voltar entao precisa ser sempre zerado
         DIV BX          ; AX : BX (RESTO EM DX E QUOCIENTE EM AX)
-
         PUSH DX         ;Guardar o valor do resto para a impressão mais tarde
         INC CX          ;incrementa mais um algarismo que será impresso
-
         CMP AX,0        ;Se o quociente for 0, significa que devemos parar a divisao e iniciar a impressão
         JNE @LOOP_HEXA
-
-        
         MOV AH,02H      
     @IMPRIME_HEXA:      ;LOOP DE IMPRESSÃO
         POP DX
