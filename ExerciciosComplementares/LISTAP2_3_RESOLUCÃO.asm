@@ -18,18 +18,13 @@ main PROC
     @LOOP_LEITURA:
         MOV AH,01
         INT 21H
-
         CMP AL,13
         JE @SAI_LEITURA     ;SE É ENTER ENTÃO SAI
-
         AND  AX, 0FH      ;TRANSFORMA EM NUMERO
-
         PUSH AX             ;GUARDA VALOR ANTES DA OPERACAO
         MOV AX,10           ;MOVE MULTIPLICADOR PARA AX
-
         MUL BX              ;FAZ AX x BX
         POP BX              ;DEVOLVE O VALOR PARA BX
-
         ADD BX,AX           ;ADCIONA O VALOR ANTES LIDO AGORA DO VALOR TOTAL (BX = BX + (BX x AX))
         JMP @LOOP_LEITURA
         @SAI_LEITURA:
