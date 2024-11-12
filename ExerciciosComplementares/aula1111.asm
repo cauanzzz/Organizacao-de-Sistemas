@@ -1,0 +1,1 @@
+;escreva um procedimento que imprima um vetor de caracteres, usando LODSB
