@@ -80,12 +80,16 @@ definicao2 MACRO
 endm
 .DATA   
 MSG1 DB 'SEJA BEM VINDO AO BATALHA NAVAL$'
-MSG2 DB 'DIGITE QUALQUER NUMERO E DIGITE ENTER PARA INICIAR:$'
+MSG2 DB 'DIGITE UM NUMERO QUALQUER E PRESSIONE ENTER PARA COMECAR:$'
 MSG3 DB 'DIGITE A LINHA: $'
 MSG4 DB 'DIGITE A COLUNA: $'
+msg5 db 10, 13, 'VOCE ACERTOU!!!$'
+msg6 db 10, 13, 'VOCE ERROU :($'
+msg7 db 'PARABENS VOCE DESTRUIU TODOS OS BARCOS E GANHOU!!$'
 
-MATRIZINICIAL DB 20 DUP (20 DUP ("#"))
+MATRIZINICIAL DB 20 DUP (20 DUP ("="))
 MATRIZUSER DB 20 DUP (20 DUP(0))
+contador db 0
 
 ;INICIALIZAREMOS 10 MATRIZES QUE SERAO SELECIONADAS PELO USUARIO DE FORMA ALEATORIO
 MATRIZ0 DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
@@ -322,16 +326,6 @@ MOV AH, 4CH
 INT 21H
 MAIN ENDP
 
-
-
-
-
-
-
-
-
-
-
 TRANSFERENCIADEMATRIZ PROC
 CMP BL, '0'
 JE ZEROMATRIZ
@@ -350,7 +344,7 @@ TRANSFERIRZERO:
     JE PROXIMOSNUM1         ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20 PARA VER SE É A HORA DE PULAR LINHA
     JNE TRANSFERIRZERO       ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX, MUDANDO A LINHA DA MATRIZ
+    ADD BX, 20                 ; SE SIM, ADICIONA 20 EM BX, MUDANDO A LINHA DA MATRIZ
     XOR SI, SI                ; ZERA SI PRA VOLTARMOS NA COLUNA 0
     JMP TRANSFERIRZERO        ; VOLTA NO LOOP
     JMP FIMT 
@@ -365,7 +359,7 @@ TRANSFERIRUM:
     JE PROXIMOSNUM1                ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIRUM         ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20              ; SE SIM, ADICIONA 20 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIRUM          ; VOLTA NO LOOP
     JMP FIMT 
@@ -380,7 +374,7 @@ TRANSFERIRDOIS:
     JE PROXIMOSNUM1        ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIRDOIS       ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20                 ; SE SIM, ADICIONA 20 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIRDOIS        ; VOLTA NO LOOP
     JMP FIMT 
@@ -403,7 +397,7 @@ TRANSFERIRTRES:
     JE PROXIMOSNUM2         ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIRTRES       ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20                 ; SE SIM, ADICIONA 20 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIRTRES        ; VOLTA NO LOOP
     JMP FIMT 
@@ -418,7 +412,7 @@ TRANSFERIRQUATRO:
     JE PROXIMOSNUM2        ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIRQUATRO     ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20                 ; SE SIM, ADICIONA 20 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIRQUATRO      ; VOLTA NO LOOP
     JMP FIMT 
@@ -433,7 +427,7 @@ TRANSFERIRCINCO:
     JE PROXIMOSNUM2        ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIRCINCO      ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20                 ; SE SIM, ADICIONA 20 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIRCINCO       ; VOLTA NO LOOP
     JMP FIMT 
@@ -458,7 +452,7 @@ TRANSFERIRSEIS:
     JE FIMT         ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIRSEIS       ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20                 ; SE SIM, ADICIONA 4 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIRSEIS        ; VOLTA NO LOOP 
 
@@ -472,7 +466,7 @@ TRANSFERIRSETE:
     JE FIMT         ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIRSETE       ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20                 ; SE SIM, ADICIONA 4 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIRSETE        ; VOLTA NO LOOP 
 
@@ -486,7 +480,7 @@ TRANSFERIROITO:
     JE FIMT         ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIROITO       ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20                 ; SE SIM, ADICIONA 4 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIROITO        ; VOLTA NO LOOP 
 
@@ -500,7 +494,7 @@ TRANSFERIRNOVE:
     JE FIMT         ; SE IGUAL ENCERRA
     CMP SI, 20                ; COMPARA COM 20
     JNE TRANSFERIRNOVE       ; SE NÃO VOLTA AO LOOP
-    ADD BX, 4                 ; SE SIM, ADICIONA 4 EM BX
+    ADD BX, 20                 ; SE SIM, ADICIONA 4 EM BX
     XOR SI, SI                ; ZERA SI
     JMP TRANSFERIRNOVE        ; VOLTA NO LOOP 
 FIMT:
@@ -510,6 +504,8 @@ TRANSFERENCIADEMATRIZ ENDP
 JOGANDO PROC
     XOR CX,CX
 REPETE:
+pulalinha
+pulalinha
 leituralinha:
     XOR BX,BX
     MOV AH,09
@@ -526,6 +522,8 @@ leituracoluna:
     MOV AH,09
     LEA DX, MSG4
     INT 21H
+    XOR AX,AX
+    XOR DX,DX
     @LOOP_LEITURA1:
         MOV AH,01
         INT 21H
@@ -543,32 +541,51 @@ leituracoluna:
 comparajogo: 
     CMP MATRIZUSER[BX][SI],1 ;COMPARA O VALOR DA POSIÇÃO DIGITADA PELO USUARIO COM NOSSA MATRIZ DO PROGRAMA, SE ELA FOR 1, SIGNIFICA QUE ACERTOU A POSIÇÃO DA EMBARCAÇÃO
     JNE ZERO               ;SE NÃO FOR 1, COMEÇA DE NOVO A PEDIR POSIÇÃO
-    INC CX                 ;CX SERÁ USADO COMO NOSSO CONTADOR, POIS TEMOS 13 POSIÇÕES QUE SÃO EMBARCAÇÕES ASSIM QUE ATINGIR TODAS ENCERRA
-    MOV MATRIZINICIAL[BX][SI],'X'
-    CMP CX,13
+    mov ah, 9
+    mov dx, offset msg5
+    int 21h
+    pulalinha
+    pulalinha
+    INC contador                 ;CX SERÁ USADO COMO NOSSO CONTADOR, POIS TEMOS 13 POSIÇÕES QUE SÃO EMBARCAÇÕES ASSIM QUE ATINGIR TODAS ENCERRA
+    MOV MATRIZINICIAL[BX][SI],0dbh
+    CMP contador, 13
     JE FINALIZACAO
-    JMP REPETE
+    JMP IMPRIMIRINICIAL1
     ZERO:
-    MOV MATRIZINICIAL[BX][SI],'O'
+    MOV MATRIZINICIAL[BX][SI],'X'
+    mov ah, 9
+    mov dx, offset msg6
+    int 21h
+    pulalinha
+    pulalinha
     IMPRIMIRINICIAL1:          ;imprimi a primiera matriz de apresentação do programa
+xor bx, bx
+xor si, si
+mov cx, 400
+PRINT_LOOP:
 MOV AH,02                 ;IMPRIMI
 MOV DL,MATRIZINICIAL[BX][SI] 
 INT 21h          
 INC SI                    ;AUMENTA O VALOR DA COLUNA
-DEC CX                    ;DIMINUI O CONTADOR
-CMP CX,0                  ;COMPARA COM CX, SE FOR 0 ACABA
-JE FIMIMPINICIAL1                   ;SE IGUAL ENCERRA
+DEC cX                    ;DIMINUI O CONTADOR
+CMP cX,0                  ;COMPARA COM CX, SE FOR 0 ACABA
+JnE somarepete
+jmp REPETE                   ;SE IGUAL ENCERRA
+somarepete:
 CMP SI,20                  ;COMPARA COM 4 PRA VER SE É A HORA DE PULAR LINHA
-JNE IMPRIMIRINICIAL1              ;SE NÃO VOLTA AO LOOP
-ADD BX,4                  ;SE SIM ADICIONA 4 EM BX, MUDANDO A LINHA DA MATRIZ
+JNE PRINT_LOOP             ;SE NÃO VOLTA AO LOOP
+ADD BX,20                  ;SE SIM ADICIONA 4 EM BX, MUDANDO A LINHA DA MATRIZ
 XOR SI,SI                 ;ZERA SI PRA VOLTARMOS NA COLUNA 0
 pulalinha                 ;MACRO DE PULAR LINHA
-JMP IMPRIMIRINICIAL              ;VOLTA NO LOOP
+JMP PRINT_LOOP            ;VOLTA NO LOOP
 FIMIMPINICIAL1:
 pulalinha
-JMP REPETE
 FINALIZACAO:
+    mov ah, 9
+    mov dx, offset msg7
+    int 21h
 RET
 JOGANDO ENDP
 
 END MAIN
+
