@@ -81,15 +81,17 @@ endm
 .DATA   
 MSG1 DB 'SEJA BEM VINDO AO BATALHA NAVAL$'
 MSG2 DB 'DIGITE UM NUMERO QUALQUER E PRESSIONE ENTER PARA COMECAR:$'
-MSG3 DB 'DIGITE A LINHA: $'
-MSG4 DB 'DIGITE A COLUNA: $'
+MSG3 DB 'DIGITE A LINHA (0 A 19): $'
+MSG4 DB 'DIGITE A COLUNA (0 A 19): $'
 msg5 db 10, 13, 'VOCE ACERTOU,UM INIMIGO FOI ATINGIDO!!!$'
 msg6 db 10, 13, 'VOCE ERROU, SEU TIRO FOI NA ÁGUA :($'
 msg7 db 'PARABENS VOCE DESTRUIU TODOS OS BARCOS E GANHOU!!$'
+msg8 db "SEUS TIROS ACABARAM E VOCE FOI DERROTADO :($"
 
 MATRIZINICIAL DB 20 DUP (20 DUP ("="))
 MATRIZUSER DB 20 DUP (20 DUP(0))
 contador db 0
+derrota db 0
 
 ;INICIALIZAREMOS 10 MATRIZES QUE SERAO SELECIONADAS PELO USUARIO DE FORMA ALEATORIO
 MATRIZ0 DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
@@ -546,13 +548,19 @@ comparajogo:
     int 21h
     pulalinha
     pulalinha
-    INC contador                 ;CX SERÁ USADO COMO NOSSO CONTADOR, POIS TEMOS 13 POSIÇÕES QUE SÃO EMBARCAÇÕES ASSIM QUE ATINGIR TODAS ENCERRA
+    INC contador    ;INCREMENTA CONTADOR, POIS TEMOS 13 POSIÇÕES QUE SÃO EMBARCAÇÕES ASSIM QUE ATINGIR TODAS ENCERRA
+    INC derrota           ;INCREMENTA derrota que sera usado como delimitador de tentativas
     MOV MATRIZINICIAL[BX][SI],0dbh
     CMP contador, 13
     JE FINALIZACAO
+    CMP derrota, 30
+    JE DERROTADO
     JMP IMPRIMIRINICIAL1
     ZERO:
     MOV MATRIZINICIAL[BX][SI],'X'
+    INC derrota 
+    CMP derrota, 30
+    JE DERROTADO
     mov ah, 9
     mov dx, offset msg6
     int 21h
@@ -580,12 +588,18 @@ pulalinha                 ;MACRO DE PULAR LINHA
 JMP PRINT_LOOP            ;VOLTA NO LOOP
 FIMIMPINICIAL1:
 pulalinha
+DERROTADO:
+    mov ah, 9
+    mov dx, offset msg8
+    int 21h
+    JMP TCHAU
 FINALIZACAO:
     mov ah, 9
     mov dx, offset msg7
     int 21h
+TCHAU:
 RET
+
 JOGANDO ENDP
 
 END MAIN
-
