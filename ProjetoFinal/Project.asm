@@ -1,5 +1,6 @@
 .MODEL SMALL
 .STACK 100h
+; criação de um macro pra pular linha
 pulalinha MACRO
     mov ah, 02h           
     mov dl, 13        
@@ -7,6 +8,7 @@ pulalinha MACRO
     mov dl, 10          
     int 21h
 endm
+; criação de um macro pra ler o numero
 LEITURANUMERO MACRO
  loopenter:
  mov ah,01
@@ -80,7 +82,7 @@ definicao2 MACRO
 endm
 .DATA   
 MSG1 DB 'SEJA BEM VINDO AO BATALHA NAVAL$'
-MSG2 DB 'DIGITE UM NUMERO QUALQUER E PRESSIONE ENTER PARA COMECAR:$'
+MSG2 DB 'DIGITE UM NUMERO QUALQUER E PRESSIONE ENTER PARA COMECAR (VOCE TERA 30 TIROS):$'
 MSG3 DB 'DIGITE A LINHA (0 A 19): $'
 MSG4 DB 'DIGITE A COLUNA (0 A 19): $'
 msg5 db 10, 13, 'VOCE ACERTOU,UM INIMIGO FOI ATINGIDO!!!$'
@@ -88,7 +90,7 @@ msg6 db 10, 13, 'VOCE ERROU, SEU TIRO FOI NA ÁGUA :($'
 msg7 db 'PARABENS VOCE DESTRUIU TODOS OS BARCOS E GANHOU!!$'
 msg8 db "SEUS TIROS ACABARAM E VOCE FOI DERROTADO :($"
 
-MATRIZINICIAL DB 20 DUP (20 DUP ("="))
+MATRIZINICIAL DB 20 DUP (20 DUP ("=")) 
 MATRIZUSER DB 20 DUP (20 DUP(0))
 contador db 0
 derrota db 0
@@ -308,7 +310,7 @@ MAIN PROC
 MOV AX,@DATA
 MOV DS,AX
 MOV AH,09                 ;IMPRIMI A MENSEGM DE BOAS VINDAS AO JOGO
-LEA DX,MSG1
+LEA DX,MSG1                
 INT 21H
 pulalinha
 XOR SI,SI                 ;INICIALIZA SI E BX
@@ -328,6 +330,7 @@ MOV AH, 4CH
 INT 21H
 MAIN ENDP
 
+ ;agora para seleção de qual modelo de matriz sera usado dentre as 10, comparamos BL
 TRANSFERENCIADEMATRIZ PROC
 CMP BL, '0'
 JE ZEROMATRIZ
@@ -553,13 +556,13 @@ comparajogo:
     MOV MATRIZINICIAL[BX][SI],0dbh
     CMP contador, 13
     JE FINALIZACAO
-    CMP derrota, 30
+    CMP derrota, 5 ; verifica ce ja foram 30 jogadas
     JE DERROTADO
     JMP IMPRIMIRINICIAL1
     ZERO:
     MOV MATRIZINICIAL[BX][SI],'X'
     INC derrota 
-    CMP derrota, 30
+    CMP derrota, 5
     JE DERROTADO
     mov ah, 9
     mov dx, offset msg6
