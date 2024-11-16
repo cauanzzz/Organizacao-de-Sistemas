@@ -556,13 +556,13 @@ comparajogo:
     MOV MATRIZINICIAL[BX][SI],0dbh
     CMP contador, 13
     JE FINALIZACAO
-    CMP derrota, 5 ; verifica ce ja foram 30 jogadas
+    CMP derrota, 30 ; verifica ce ja foram 30 jogadas
     JE DERROTADO
     JMP IMPRIMIRINICIAL1
     ZERO:
     MOV MATRIZINICIAL[BX][SI],'X'
     INC derrota 
-    CMP derrota, 5
+    CMP derrota, 30
     JE DERROTADO
     mov ah, 9
     mov dx, offset msg6
